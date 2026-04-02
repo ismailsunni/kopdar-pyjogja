@@ -5,7 +5,7 @@ import './style.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
+import XYZ from 'ol/source/XYZ';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -75,13 +75,24 @@ const vectorLayer = new VectorLayer({
   zIndex: 10,
 });
 
+// ── Basemaps ───────────────────────────────────────────────
+const BASEMAPS = {
+  positron: new TileLayer({ source: new XYZ({ url: 'https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', attributions: '© CARTO © OSM', crossOrigin: 'anonymous' }) }),
+  osm:      new TileLayer({ source: new XYZ({ url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', attributions: '© OSM contributors', crossOrigin: 'anonymous' }) }),
+  topo:     new TileLayer({ source: new XYZ({ url: 'https://tile.opentopomap.org/{z}/{x}/{y}.png', attributions: '© OpenTopoMap © OSM', crossOrigin: 'anonymous' }) }),
+};
+BASEMAPS.osm.setVisible(false);
+BASEMAPS.topo.setVisible(false);
+
 // ── Map ────────────────────────────────────────────────────
 const extent = transformExtent([110.28, -7.95, 110.48, -7.65], 'EPSG:4326', 'EPSG:3857');
 
 const map = new Map({
   target: 'map',
   layers: [
-    new TileLayer({ source: new OSM() }),
+    BASEMAPS.positron,
+    BASEMAPS.osm,
+    BASEMAPS.topo,
     vectorLayer,
   ],
   view: new View({
@@ -257,6 +268,16 @@ document.querySelectorAll('.type-pill').forEach((pill) => {
       pill.classList.add('active');
     }
     applyFilters();
+  });
+});
+
+// ── Basemap switcher ───────────────────────────────────────
+document.querySelectorAll('#basemap-switcher button').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.basemap;
+    Object.entries(BASEMAPS).forEach(([k, layer]) => layer.setVisible(k === key));
+    document.querySelectorAll('#basemap-switcher button').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
   });
 });
 

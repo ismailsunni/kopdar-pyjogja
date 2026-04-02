@@ -35,7 +35,7 @@ html, body {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  width: 300px;
+  width: 340px;
   background: white;
   border-radius: var(--panel-radius);
   box-shadow: var(--panel-shadow);
@@ -395,6 +395,28 @@ html, body {
 .noUi-handle::after {
   display: none;
 }
+
+/* ── Basemap switcher ────────────────────────────────────── */
+#basemap-switcher {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1rem;
+  z-index: 100;
+  display: flex;
+  gap: 0.3rem;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.3rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+#basemap-switcher button {
+  border: none; background: none; cursor: pointer;
+  padding: 0.3rem 0.6rem; border-radius: 7px;
+  font-size: 0.72rem; font-weight: 600; color: #6b7280;
+  transition: all 0.15s;
+}
+#basemap-switcher button.active { background: #1a1a1a; color: #fff; }
+#basemap-switcher button:not(.active):hover { background: #f3f4f6; color: #374151; }
 
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 640px) {
