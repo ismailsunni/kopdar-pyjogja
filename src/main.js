@@ -92,7 +92,6 @@ const map = new Map({
   }),
 });
 
-// Fit to Jogja extent on load
 map.getView().fit(extent, { padding: [20, 20, 20, 20] });
 
 // ── Popup overlay ──────────────────────────────────────────
@@ -115,13 +114,17 @@ function formatDate(dateStr) {
 
 function showPopup(feature, coordinate) {
   const p = feature.getProperties();
+  const color = getColor(p.type);
   const links = [];
   if (p.announcement_url) links.push(`<a class="popup-link" href="${p.announcement_url}" target="_blank" rel="noopener">📢 Pengumuman</a>`);
-  if (p.docs_url) links.push(`<a class="popup-link" href="${p.docs_url}" target="_blank" rel="noopener">📄 Dokumentasi</a>`);
+  if (p.docs_url) links.push(`<a class="popup-link" href="${p.docs_url}" target="_blank" rel="noopener">📄 Docs</a>`);
   if (p.photo_url) links.push(`<a class="popup-link" href="${p.photo_url}" target="_blank" rel="noopener">📷 Foto</a>`);
 
   popupContent.innerHTML = `
-    <div class="popup-title">${p.name}</div>
+    <div class="popup-header">
+      <span class="popup-dot" style="background:${color}"></span>
+      <span class="popup-name">${p.name}</span>
+    </div>
     <div class="popup-row">📅 ${formatDate(p.date)}</div>
     <div class="popup-row">🏢 ${p.host}</div>
     <div class="popup-row">🏷️ ${TYPE_LABELS[p.type] || p.type}</div>
@@ -184,11 +187,13 @@ map.on('pointermove', (evt) => {
   }
 });
 
-// ── Time range slider ──────────────────────────────────────
+// ── Filters ────────────────────────────────────────────────
 const features = vectorSource.getFeatures();
 const dates = features.map((f) => new Date(f.get('date') + 'T00:00:00').getTime());
 const minDate = Math.min(...dates);
 const maxDate = Math.max(...dates);
+
+const activeTypes = new Set(Object.keys(TYPE_COLORS));
 
 const sliderEl = document.getElementById('time-slider');
 const rangeLabel = document.getElementById('time-range-label');
@@ -205,23 +210,30 @@ function formatMonthYear(ts) {
   return d.toLocaleDateString('id-ID', { month: 'short', year: 'numeric' });
 }
 
-function updateFilter(values) {
+function updateStats() {
+  const visible = features.filter((f) => !f.get('_hidden')).length;
+  document.getElementById('stats-bar').textContent = `${visible} kopdar ditampilkan`;
+}
+
+function applyFilters(sliderValues) {
+  const values = sliderValues !== undefined ? sliderValues : sliderEl.noUiSlider.get();
   const [from, to] = values.map(Number);
   rangeLabel.textContent = `${formatMonthYear(from)} — ${formatMonthYear(to)}`;
 
   features.forEach((feature) => {
     const ts = new Date(feature.get('date') + 'T00:00:00').getTime();
-    feature.set('_hidden', ts < from || ts > to);
+    const type = feature.get('type');
+    feature.set('_hidden', ts < from || ts > to || !activeTypes.has(type));
   });
   vectorSource.changed();
+  updateStats();
 
-  // Hide popup if selected feature is now filtered out
   if (selectedFeature && selectedFeature.get('_hidden')) {
     hidePopup();
   }
 }
 
-sliderEl.noUiSlider.on('update', (values) => updateFilter(values));
+sliderEl.noUiSlider.on('update', (values) => applyFilters(values));
 
 // Override style to hide filtered features
 vectorLayer.setStyle((feature) => {
@@ -231,4 +243,27 @@ vectorLayer.setStyle((feature) => {
 
 document.getElementById('reset-filter').addEventListener('click', () => {
   sliderEl.noUiSlider.set([minDate, maxDate]);
+});
+
+// ── Type filter pills ──────────────────────────────────────
+document.querySelectorAll('.type-pill').forEach((pill) => {
+  pill.addEventListener('click', () => {
+    const type = pill.dataset.type;
+    if (activeTypes.has(type)) {
+      activeTypes.delete(type);
+      pill.classList.remove('active');
+    } else {
+      activeTypes.add(type);
+      pill.classList.add('active');
+    }
+    applyFilters();
+  });
+});
+
+// ── Minimize panel ─────────────────────────────────────────
+document.getElementById('minimize-btn').addEventListener('click', () => {
+  const panel = document.getElementById('panel');
+  const btn = document.getElementById('minimize-btn');
+  panel.classList.toggle('minimized');
+  btn.textContent = panel.classList.contains('minimized') ? '+' : '–';
 });
