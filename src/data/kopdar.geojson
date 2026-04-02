@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.377, -7.770] },
+      "properties": {
+        "name": "Kopdar PyJogja #1",
+        "date": "2022-03-15",
+        "host": "Universitas Gadjah Mada",
+        "type": "normal_talk",
+        "announcement_url": "https://pyjogja.org/kopdar/1",
+        "docs_url": "https://pyjogja.org/docs/1",
+        "photo_url": "https://pyjogja.org/photos/1",
+        "description": "Pertemuan rutin pertama PyJogja membahas Python basics dan ekosistem open source."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.366, -7.793] },
+      "properties": {
+        "name": "Kopdar PyJogja #2",
+        "date": "2022-07-23",
+        "host": "Kopi Jogja Malioboro",
+        "type": "lightning_talk",
+        "announcement_url": "https://pyjogja.org/kopdar/2",
+        "docs_url": "",
+        "photo_url": "https://pyjogja.org/photos/2",
+        "description": "Sesi lightning talk tentang web scraping dengan BeautifulSoup dan Scrapy."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.353, -7.716] },
+      "properties": {
+        "name": "Kopdar PyJogja #3",
+        "date": "2022-11-05",
+        "host": "Coworking Space Sleman",
+        "type": "workshop",
+        "announcement_url": "https://pyjogja.org/kopdar/3",
+        "docs_url": "https://pyjogja.org/docs/3",
+        "photo_url": "",
+        "description": "Workshop intensif penggunaan pandas dan matplotlib untuk analisis data."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.380, -7.782] },
+      "properties": {
+        "name": "PyJogja Conference 2023",
+        "date": "2023-04-22",
+        "host": "Universitas Negeri Yogyakarta",
+        "type": "conference",
+        "announcement_url": "https://pyjogja.org/kopdar/4",
+        "docs_url": "https://pyjogja.org/docs/4",
+        "photo_url": "https://pyjogja.org/photos/4",
+        "description": "Konferensi tahunan Python Jogja dengan topik machine learning dan data science."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.332, -7.888] },
+      "properties": {
+        "name": "Kopdar PyJogja #5",
+        "date": "2023-08-19",
+        "host": "Cafe Bantul Kreatif",
+        "type": "hackathon",
+        "announcement_url": "https://pyjogja.org/kopdar/5",
+        "docs_url": "",
+        "photo_url": "https://pyjogja.org/photos/5",
+        "description": "Hackathon 12 jam membangun aplikasi berbasis Python untuk solusi lokal Bantul."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.370, -7.800] },
+      "properties": {
+        "name": "Kopdar PyJogja #6",
+        "date": "2024-02-10",
+        "host": "Kedai Kopi Prawirotaman",
+        "type": "normal_talk",
+        "announcement_url": "https://pyjogja.org/kopdar/6",
+        "docs_url": "https://pyjogja.org/docs/6",
+        "photo_url": "",
+        "description": "Diskusi tentang FastAPI, async programming, dan deployment ke cloud."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.390, -7.755] },
+      "properties": {
+        "name": "Kopdar PyJogja #7",
+        "date": "2024-09-28",
+        "host": "Universitas Atma Jaya Yogyakarta",
+        "type": "workshop",
+        "announcement_url": "https://pyjogja.org/kopdar/7",
+        "docs_url": "https://pyjogja.org/docs/7",
+        "photo_url": "https://pyjogja.org/photos/7",
+        "description": "Workshop membangun REST API dengan Django REST Framework dan autentikasi JWT."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [110.360, -7.810] },
+      "properties": {
+        "name": "Kopdar PyJogja #8",
+        "date": "2025-01-18",
+        "host": "Ruang Tamu Coworking",
+        "type": "lightning_talk",
+        "announcement_url": "https://pyjogja.org/kopdar/8",
+        "docs_url": "https://pyjogja.org/docs/8",
+        "photo_url": "https://pyjogja.org/photos/8",
+        "description": "Sesi lightning talk bertema AI tools, LLM lokal, dan Python untuk automation."
+      }
+    }
+  ]
+}

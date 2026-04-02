@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peta Kopdar PyJogja</title>
+  <link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+  <header id="titlebar">
+    <span>Peta Kopdar Python Jogja 🐍</span>
+  </header>
+
+  <div id="map-container">
+    <div id="map"></div>
+
+    <div id="popup" class="ol-popup">
+      <button id="popup-closer" class="ol-popup-closer">×</button>
+      <div id="popup-content"></div>
+    </div>
+
+    <div id="tooltip" class="map-tooltip"></div>
+
+    <div id="legend" class="map-panel">
+      <div class="panel-title">Tipe Event</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span>Talks Biasa</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Lightning Talk</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>Konferensi</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span>Workshop</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>Hackathon</div>
+    </div>
+
+    <div id="time-filter" class="map-panel">
+      <div class="panel-title">Filter Waktu</div>
+      <div id="time-range-label">Mar 2022 — Jan 2025</div>
+      <div id="time-slider"></div>
+      <button id="reset-filter">Reset</button>
+    </div>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
