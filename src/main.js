@@ -144,7 +144,7 @@ const popup = new Overlay({
   element: popupEl,
   positioning: 'bottom-center',
   stopEvent: true,
-  offset: [0, -10],
+  offset: [0, -14],
 });
 map.addOverlay(popup);
 
@@ -173,8 +173,11 @@ function showPopup(feature) {
     ${links.length ? `<div class="popup-links">${links.join('')}</div>` : ''}
   `;
 
+  // Use the actual point coordinate (from the inner feature geometry)
   const coord = feature.getGeometry().getCoordinates();
   popup.setPosition(coord);
+  // Pan map slightly so popup is visible
+  map.getView().animate({ center: coord, duration: 200 });
   popupEl.style.display = 'block';
 }
 
