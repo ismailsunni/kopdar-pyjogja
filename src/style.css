@@ -225,8 +225,6 @@ html, body {
 }
 
 /* ── OL overlay container transparency ──────────────────── */
-.ol-overlaycontainer-stopevent { background: transparent !important; }
-.ol-overlay-container { background: transparent !important; }
 
 /* ── OL control overrides ────────────────────────────────── */
 .ol-zoom {
@@ -518,3 +516,13 @@ html, body {
     bottom: auto;
   }
 }
+
+/* ── OL control overrides (replacing ol.css) ── */
+.ol-zoom { position: absolute; top: 1rem; right: 1rem; display: flex; flex-direction: column; gap: 2px; }
+.ol-zoom button { width: 32px; height: 32px; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,0.1); transition: background 0.15s; }
+.ol-zoom button:hover { background: #f3f4f6; }
+.ol-attribution { position: absolute; bottom: 0.5rem; right: 0.5rem; }
+.ol-attribution ul { list-style: none; margin: 0; padding: 2px 6px; font-size: 0.6rem; color: #9ca3af; background: rgba(255,255,255,0.85); border-radius: 4px; }
+.ol-attribution a { color: #9ca3af; }
+.ol-attribution button { display: none; }
+.ol-rotate { display: none; }

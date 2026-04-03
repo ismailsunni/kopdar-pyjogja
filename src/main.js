@@ -1,4 +1,4 @@
-import 'ol/ol.css';
+
 import 'nouislider/dist/nouislider.css';
 import './style.css';
 
