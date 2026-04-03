@@ -12,7 +12,7 @@ import Cluster from 'ol/source/Cluster';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style';
 import Overlay from 'ol/Overlay';
-import { fromLonLat, transformExtent } from 'ol/proj';
+import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import { boundingExtent } from 'ol/extent';
 import noUiSlider from 'nouislider';
 
@@ -28,8 +28,10 @@ const TYPE_COLORS = {
 };
 
 const TYPE_LABELS = {
-  normal_talk: 'Talks Biasa',
+  normal_talk: 'Talks',
   lightning_talk: 'Lightning Talk',
+  online: 'Online',
+  social: 'Syawalan',
   conference: 'Konferensi',
   workshop: 'Workshop',
   hackathon: 'Hackathon',
@@ -190,22 +192,94 @@ function hidePopup() {
 
 popupCloser.addEventListener('click', hidePopup);
 
+// ── List popup overlay ─────────────────────────────────────
+const listPopupEl = document.getElementById('list-popup');
+const listPopupContent = document.getElementById('list-popup-content');
+const listPopupCloser = document.getElementById('list-popup-closer');
+
+const listOverlay = new Overlay({
+  element: listPopupEl,
+  positioning: 'bottom-center',
+  stopEvent: true,
+  offset: [0, -14],
+});
+map.addOverlay(listOverlay);
+
+function showListPopup(features, coord) {
+  const sorted = features.slice().sort((a, b) => new Date(a.get('date')) - new Date(b.get('date')));
+
+  const items = sorted.map((f) => {
+    const p = f.getProperties();
+    const color = getColor(p.type);
+    return `<div class="list-popup-item" data-no="${p.no}">
+      <span class="popup-dot" style="background:${color}"></span>
+      <span class="list-item-no">#${p.no}</span>
+      <span class="list-item-name">${p.name}</span>
+      <span class="list-item-date">${formatDate(p.date)}</span>
+      <span class="list-item-type">${TYPE_LABELS[p.type] || p.type}</span>
+    </div>`;
+  }).join('');
+
+  listPopupContent.innerHTML = `
+    <div class="list-popup-header">${features.length} Kopdar di lokasi ini</div>
+    <div class="list-popup-scroll">${items}</div>
+  `;
+
+  listPopupContent.querySelectorAll('.list-popup-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      const no = Number(item.dataset.no);
+      const f = features.find((feat) => feat.get('no') === no);
+      if (f) {
+        hideListPopup();
+        selectedFeature = f;
+        clusterLayer.changed();
+        showPopup(f);
+      }
+    });
+  });
+
+  listOverlay.setPosition(coord);
+  listPopupEl.classList.add('visible');
+}
+
+function hideListPopup() {
+  listPopupEl.classList.remove('visible');
+  listOverlay.setPosition(undefined);
+}
+
+listPopupCloser.addEventListener('click', hideListPopup);
+
 // ── Click handler ──────────────────────────────────────────
 map.on('click', (evt) => {
   const clusterFeature = map.forEachFeatureAtPixel(evt.pixel, (f) => f, { layerFilter: (l) => l === clusterLayer });
   if (clusterFeature) {
     const features = clusterFeature.get('features');
     if (features.length > 1) {
-      const ext = boundingExtent(features.map((f) => f.getGeometry().getCoordinates()));
-      map.getView().fit(ext, { padding: [80, 80, 80, 80], duration: 400, maxZoom: 16 });
+      const coords = features.map((f) => f.getGeometry().getCoordinates());
+      const [refLon, refLat] = toLonLat(coords[0]);
+      const allSame = coords.every((c) => {
+        const [lon, lat] = toLonLat(c);
+        return Math.abs(lon - refLon) < 0.0001 && Math.abs(lat - refLat) < 0.0001;
+      });
+
+      if (allSame) {
+        hidePopup();
+        showListPopup(features, coords[0]);
+      } else {
+        hideListPopup();
+        const ext = boundingExtent(coords);
+        map.getView().fit(ext, { padding: [80, 80, 80, 80], duration: 400, maxZoom: 16 });
+      }
       return;
     }
+    hideListPopup();
     const feature = features[0];
     selectedFeature = feature;
     clusterLayer.changed();
     showPopup(feature);
   } else {
     hidePopup();
+    hideListPopup();
   }
 });
 

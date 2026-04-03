@@ -224,6 +224,10 @@ html, body {
   opacity: 0.8;
 }
 
+/* ── OL overlay container transparency ──────────────────── */
+.ol-overlaycontainer-stopevent { background: transparent !important; }
+.ol-overlay-container { background: transparent !important; }
+
 /* ── OL control overrides ────────────────────────────────── */
 .ol-zoom {
   top: 1rem !important;
@@ -356,6 +360,63 @@ html, body {
 
 .popup-link:hover {
   background: #e5e7eb;
+}
+
+/* ── List popup ──────────────────────────────────────────── */
+.list-popup-header {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #374151;
+  margin-bottom: 8px;
+  padding-right: 28px;
+}
+
+.list-popup-scroll {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.list-popup-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 4px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.list-popup-item:last-child {
+  border-bottom: none;
+}
+
+.list-popup-item:hover {
+  background: #f3f4f6;
+}
+
+.list-item-no {
+  color: #9ca3af;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.list-item-name {
+  font-weight: 600;
+  color: #111;
+  flex: 1;
+}
+
+.list-item-date {
+  color: #6b7280;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.list-item-type {
+  color: #6b7280;
+  font-size: 0.7rem;
+  flex-shrink: 0;
 }
 
 /* ── Tooltip ─────────────────────────────────────────────── */
