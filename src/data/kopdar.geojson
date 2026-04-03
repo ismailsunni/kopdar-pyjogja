@@ -6,8 +6,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3675,
-          -7.7826
+          110.438312,
+          -7.750563
         ]
       },
       "properties": {
@@ -20,8 +20,7 @@
         "announcement_url": "https://www.meetup.com/Python-ID/events/233906380/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -29,8 +28,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3671,
-          -7.7836
+          110.469484,
+          -7.757888
         ]
       },
       "properties": {
@@ -43,8 +42,7 @@
         "announcement_url": "https://www.meetup.com/Python-ID/events/234750690/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -52,8 +50,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3774,
-          -7.7717
+          110.371687,
+          -7.765813
         ]
       },
       "properties": {
@@ -66,8 +64,7 @@
         "announcement_url": "https://www.meetup.com/Python-ID/events/236720765/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -75,8 +72,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.4085,
-          -7.7571
+          110.438312,
+          -7.750563
         ]
       },
       "properties": {
@@ -89,8 +86,7 @@
         "announcement_url": "https://www.meetup.com/Python-ID/events/238373103/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -98,8 +94,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.4085,
-          -7.7571
+          110.438312,
+          -7.750563
         ]
       },
       "properties": {
@@ -112,8 +108,7 @@
         "announcement_url": "https://www.meetup.com/python-id/events/248056686/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -121,8 +116,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3756,
-          -7.7671
+          110.376312,
+          -7.767563
         ]
       },
       "properties": {
@@ -135,8 +130,7 @@
         "announcement_url": "https://www.meetup.com/Python-ID/events/250482542/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -144,8 +138,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3675,
-          -7.7826
+          110.385828,
+          -7.856262
         ]
       },
       "properties": {
@@ -158,8 +152,7 @@
         "announcement_url": "https://www.meetup.com/Python-ID/events/258647976/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -167,8 +160,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3459,
-          -7.7712
+          110.346063,
+          -7.771313
         ]
       },
       "properties": {
@@ -181,8 +174,7 @@
         "announcement_url": "https://www.meetup.com/Python-ID/events/260661249/",
         "docs_url": "https://drive.google.com/drive/folders/1aQbutm8smxiXRR9n856Y7eKW6zt8t52T?usp=sharing",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -190,8 +182,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3774,
-          -7.7717
+          110.375438,
+          -7.772187
         ]
       },
       "properties": {
@@ -204,8 +196,7 @@
         "announcement_url": "",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -213,8 +204,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.4137,
-          -7.688
+          110.413438,
+          -7.687938
         ]
       },
       "properties": {
@@ -227,8 +218,7 @@
         "announcement_url": "",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -236,8 +226,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3802,
-          -7.7746
+          110.374188,
+          -7.775438
         ]
       },
       "properties": {
@@ -250,8 +240,7 @@
         "announcement_url": "",
         "docs_url": "https://drive.google.com/drive/folders/1IjYanfe5Bs9_iJQB83ielXg9hFm6j69O",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -259,8 +248,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3778,
-          -7.8052
+          110.324438,
+          -7.814938
         ]
       },
       "properties": {
@@ -273,8 +262,7 @@
         "announcement_url": "https://meetup.com/Python-ID/events/267331416/",
         "docs_url": "https://photos.app.goo.gl/NNqBkhyzrJua1N7o7",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -282,8 +270,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.4025,
-          -7.754
+          110.360563,
+          -7.770687
         ]
       },
       "properties": {
@@ -296,8 +284,7 @@
         "announcement_url": "https://www.instagram.com/p/CnUUB8uPnJS/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -305,8 +292,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3891,
-          -7.7656
+          110.409937,
+          -7.775438
         ]
       },
       "properties": {
@@ -319,8 +306,7 @@
         "announcement_url": "https://www.instagram.com/p/CpfJWQbrMLS/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -328,8 +314,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.4025,
-          -7.754
+          110.391937,
+          -7.796188
         ]
       },
       "properties": {
@@ -342,8 +328,7 @@
         "announcement_url": "https://www.instagram.com/p/Cs8O-y8ri1n/",
         "docs_url": "https://www.instagram.com/p/CtYPaT2LG_5/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -351,8 +336,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.4087,
-          -7.7596
+          110.409188,
+          -7.760063
         ]
       },
       "properties": {
@@ -365,8 +350,7 @@
         "announcement_url": "https://www.instagram.com/p/CvzKxBFL0cQ/",
         "docs_url": "https://www.instagram.com/p/Cv9IVHTS2iI/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -374,8 +358,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3459,
-          -7.7712
+          110.346063,
+          -7.771313
         ]
       },
       "properties": {
@@ -388,8 +372,7 @@
         "announcement_url": "https://www.instagram.com/p/CyClXUyPtxQ/",
         "docs_url": "https://www.instagram.com/p/Cyc0kMXyRqW/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -397,8 +380,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3357,
-          -7.7664
+          110.335562,
+          -7.766563
         ]
       },
       "properties": {
@@ -411,8 +394,7 @@
         "announcement_url": "https://www.instagram.com/p/C0vzL9FS0Bg/",
         "docs_url": "https://www.instagram.com/p/C0-tYTlS1J6/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -420,8 +402,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.4025,
-          -7.754
+          110.360563,
+          -7.770687
         ]
       },
       "properties": {
@@ -434,8 +416,7 @@
         "announcement_url": "https://www.instagram.com/p/C4IHhKZLm42/",
         "docs_url": "https://www.instagram.com/p/C4Saufyv1cS/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -443,8 +424,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.42,
-          -7.65
+          110.380422,
+          -7.640512
         ]
       },
       "properties": {
@@ -457,8 +438,7 @@
         "announcement_url": "https://www.instagram.com/p/C57O5D0SE8a/",
         "docs_url": "https://www.instagram.com/p/C6VehzMSe6g/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -466,8 +446,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3641,
-          -7.8313
+          110.330438,
+          -7.787812
         ]
       },
       "properties": {
@@ -480,8 +460,7 @@
         "announcement_url": "https://www.instagram.com/p/C649YIDymHF",
         "docs_url": "https://www.instagram.com/p/C7b8lTbPuaq/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -489,8 +468,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.389,
-          -7.8058
+          110.355437,
+          -7.747562
         ]
       },
       "properties": {
@@ -503,8 +482,7 @@
         "announcement_url": "https://www.instagram.com/p/C9loN9eySCU/",
         "docs_url": "https://www.instagram.com/p/C97MbpVSU7F/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -512,8 +490,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3891,
-          -7.7656
+          110.395437,
+          -7.782188
         ]
       },
       "properties": {
@@ -526,8 +504,7 @@
         "announcement_url": "https://www.instagram.com/p/C_ritMuSR60/",
         "docs_url": "https://www.instagram.com/p/DALfGFDtQt-/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -535,8 +512,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3765,
-          -7.8198
+          110.330438,
+          -7.787812
         ]
       },
       "properties": {
@@ -549,8 +526,7 @@
         "announcement_url": "",
         "docs_url": "https://www.instagram.com/p/DBs1tmKP4FD/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -558,8 +534,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3802,
-          -7.7746
+          110.372438,
+          -7.773938
         ]
       },
       "properties": {
@@ -572,8 +548,7 @@
         "announcement_url": "https://www.instagram.com/p/DErjOL0TVGT/",
         "docs_url": "https://www.instagram.com/p/DFP5wwOzkMX/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -581,8 +556,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.423,
-          -7.64
+          110.403562,
+          -7.692438
         ]
       },
       "properties": {
@@ -595,8 +570,7 @@
         "announcement_url": "",
         "docs_url": "https://www.instagram.com/p/DI-0d_WTHLd",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -604,8 +578,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.38,
-          -7.7826
+          110.391078,
+          -7.733987
         ]
       },
       "properties": {
@@ -618,8 +592,7 @@
         "announcement_url": "https://www.instagram.com/p/DMJyrMhTQEj",
         "docs_url": "https://www.instagram.com/p/DMo6oK2zkuj/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     },
     {
@@ -627,8 +600,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3943,
-          -7.7857
+          110.393937,
+          -7.785187
         ]
       },
       "properties": {
@@ -641,8 +614,7 @@
         "announcement_url": "https://www.instagram.com/p/DPVJfrRk6J7/",
         "docs_url": "https://www.instagram.com/p/DQBci_UE3jG/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -650,8 +622,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.3802,
-          -7.7746
+          110.374234,
+          -7.775512
         ]
       },
       "properties": {
@@ -664,8 +636,7 @@
         "announcement_url": "https://www.instagram.com/p/DR83adlD9ia/",
         "docs_url": "",
         "photo_url": "",
-        "description": "",
-        "coords_approx": false
+        "description": ""
       }
     },
     {
@@ -673,8 +644,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          110.408,
-          -7.7981
+          110.407328,
+          -7.792713
         ]
       },
       "properties": {
@@ -687,8 +658,7 @@
         "announcement_url": "https://www.instagram.com/p/DUNw-0Ck4Fa",
         "docs_url": "https://www.instagram.com/p/DUzQ6T9kwNv/",
         "photo_url": "",
-        "description": "",
-        "coords_approx": true
+        "description": ""
       }
     }
   ]
