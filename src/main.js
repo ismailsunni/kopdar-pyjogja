@@ -176,7 +176,6 @@ function showPopup(feature) {
   // Use the actual point coordinate (from the inner feature geometry)
   const coord = feature.getGeometry().getCoordinates();
   popup.setPosition(coord);
-  map.getView().animate({ center: coord, duration: 200 });
   popupEl.classList.add('visible');
 }
 
