@@ -101,6 +101,15 @@ html, body {
   line-height: 1.3;
 }
 
+#extent-btn {
+  background: #f3f4f6; border: none; border-radius: 50%;
+  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 0.75rem; color: #6b7280; transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+#extent-btn:hover { background: #e5e7eb; }
+
 #minimize-btn {
   width: 26px;
   height: 26px;
@@ -223,6 +232,33 @@ html, body {
 .type-pill:hover {
   opacity: 0.8;
 }
+
+/* ── Kopdar list ─────────────────────────────────────────── */
+#list-section { border-top: 1px solid #f0f0f0; padding-top: 0.6rem; }
+
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+#kopdar-list { display: flex; flex-direction: column; gap: 2px; max-height: 280px; overflow-y: auto; scrollbar-width: thin; }
+
+.kopdar-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem 0.4rem; border-radius: 8px; cursor: pointer;
+  transition: background 0.1s;
+}
+.kopdar-item:hover { background: #f3f4f6; }
+.kopdar-item.active { background: #eff6ff; }
+.kopdar-item-no { font-size: 0.65rem; font-weight: 700; color: #9ca3af; min-width: 22px; }
+.kopdar-item-info { flex: 1; min-width: 0; }
+.kopdar-item-name { font-size: 0.78rem; font-weight: 600; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kopdar-item-meta { font-size: 0.65rem; color: #9ca3af; margin-top: 1px; }
+.kopdar-item-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
 /* ── OL overlay container transparency ──────────────────── */
 

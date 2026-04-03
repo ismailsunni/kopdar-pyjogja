@@ -13,7 +13,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style';
 import Overlay from 'ol/Overlay';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
-import { boundingExtent } from 'ol/extent';
+import { boundingExtent, containsCoordinate } from 'ol/extent';
 import noUiSlider from 'nouislider';
 
 import kopdarData from './data/kopdar.geojson?raw';
@@ -117,7 +117,7 @@ BASEMAPS.osm.setVisible(false);
 BASEMAPS.topo.setVisible(false);
 
 // ── Map ────────────────────────────────────────────────────
-const extent = transformExtent([110.28, -7.95, 110.48, -7.65], 'EPSG:4326', 'EPSG:3857');
+const JOGJA_EXTENT = transformExtent([110.28, -7.95, 110.48, -7.65], 'EPSG:4326', 'EPSG:3857');
 
 const map = new Map({
   target: 'map',
@@ -130,12 +130,12 @@ const map = new Map({
   view: new View({
     center: fromLonLat([110.38, -7.80]),
     zoom: 12,
-    extent,
+    extent: JOGJA_EXTENT,
     constrainOnlyCenter: false,
   }),
 });
 
-map.getView().fit(extent, { padding: [20, 20, 20, 20] });
+map.getView().fit(JOGJA_EXTENT, { padding: [20, 20, 20, 20] });
 
 // ── Popup overlay ──────────────────────────────────────────
 const popupEl = document.getElementById('popup');
@@ -365,6 +365,8 @@ function applyFilters(sliderValues) {
   if (selectedFeature && !filtered.includes(selectedFeature)) {
     hidePopup();
   }
+
+  updateList();
 }
 
 sliderEl.noUiSlider.on('update', (values) => applyFilters(values));
@@ -405,3 +407,71 @@ document.getElementById('minimize-btn').addEventListener('click', () => {
   panel.classList.toggle('minimized');
   btn.textContent = panel.classList.contains('minimized') ? '+' : '–';
 });
+
+// ── Reset extent button ────────────────────────────────────
+document.getElementById('extent-btn').addEventListener('click', () => {
+  map.getView().fit(JOGJA_EXTENT, { duration: 600, padding: [20, 20, 20, 20] });
+});
+
+// ── Kopdar list ────────────────────────────────────────────
+const MONTHS_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
+function formatDateShort(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return `${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function updateList() {
+  const mapExtent = map.getView().calculateExtent(map.getSize());
+  const values = sliderEl.noUiSlider.get();
+  const [from, to] = values.map(Number);
+
+  const visible = allFeatures.filter((f) => {
+    const ts = new Date(f.get('date') + 'T00:00:00').getTime();
+    const type = f.get('type');
+    if (!(ts >= from && ts <= to && activeTypes.has(type))) return false;
+    const coord = f.getGeometry().getCoordinates();
+    return containsCoordinate(mapExtent, coord);
+  });
+
+  visible.sort((a, b) => new Date(a.get('date') + 'T00:00:00') - new Date(b.get('date') + 'T00:00:00'));
+
+  const listEl = document.getElementById('kopdar-list');
+  const countEl = document.getElementById('list-count');
+  countEl.textContent = visible.length;
+
+  if (visible.length === 0) {
+    listEl.innerHTML = '<div style="font-size:0.72rem;color:#9ca3af;padding:0.5rem 0.4rem;">Tidak ada kopdar di area ini</div>';
+    return;
+  }
+
+  listEl.innerHTML = visible.map((f) => {
+    const p = f.getProperties();
+    const color = getColor(p.type);
+    const typeLabel = TYPE_LABELS[p.type] || p.type;
+    return `<div class="kopdar-item" data-no="${p.no}">
+      <div class="kopdar-item-no">#${p.no}</div>
+      <div class="kopdar-item-info">
+        <div class="kopdar-item-name">${p.name}</div>
+        <div class="kopdar-item-meta">${formatDateShort(p.date)} · ${typeLabel}</div>
+      </div>
+      <div class="kopdar-item-dot" style="background:${color}"></div>
+    </div>`;
+  }).join('');
+
+  listEl.querySelectorAll('.kopdar-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      const no = Number(item.dataset.no);
+      const f = allFeatures.find((feat) => feat.get('no') === no);
+      if (f) {
+        selectedFeature = f;
+        clusterLayer.changed();
+        showPopup(f);
+        listEl.querySelectorAll('.kopdar-item').forEach((i) => i.classList.remove('active'));
+        item.classList.add('active');
+      }
+    });
+  });
+}
+
+map.on('moveend', updateList);
