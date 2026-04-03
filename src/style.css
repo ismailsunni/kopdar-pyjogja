@@ -399,8 +399,6 @@ html, body {
 /* ── Basemap switcher ────────────────────────────────────── */
 #basemap-switcher {
   position: fixed;
-  bottom: 1.5rem;
-  left: 1rem;
   z-index: 100;
   display: flex;
   gap: 0.3rem;
@@ -418,8 +416,18 @@ html, body {
 #basemap-switcher button.active { background: #1a1a1a; color: #fff; }
 #basemap-switcher button:not(.active):hover { background: #f3f4f6; color: #374151; }
 
+/* Desktop: bottom-left */
+@media (min-width: 640px) {
+  #basemap-switcher {
+    bottom: 1.5rem;
+    left: 1rem;
+    top: auto;
+    right: auto;
+  }
+}
+
 /* ── Mobile ──────────────────────────────────────────────── */
-@media (max-width: 640px) {
+@media (max-width: 639px) {
   #panel {
     top: auto;
     bottom: 0;
@@ -432,5 +440,13 @@ html, body {
 
   #panel-body {
     overflow-y: auto;
+  }
+
+  /* Basemap switcher: top-right, below zoom controls */
+  #basemap-switcher {
+    top: 4rem;
+    right: 1rem;
+    bottom: auto;
+    left: auto;
   }
 }

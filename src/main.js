@@ -8,10 +8,12 @@ import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
+import Cluster from 'ol/source/Cluster';
 import GeoJSON from 'ol/format/GeoJSON';
-import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
+import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style';
 import Overlay from 'ol/Overlay';
 import { fromLonLat, transformExtent } from 'ol/proj';
+import { boundingExtent } from 'ol/extent';
 import noUiSlider from 'nouislider';
 
 import kopdarData from './data/kopdar.geojson?raw';
@@ -37,41 +39,69 @@ function getColor(type) {
   return TYPE_COLORS[type] || '#6b7280';
 }
 
-// ── Style functions ────────────────────────────────────────
-function makeStyle(type, radius, strokeWidth, strokeColor = 'white') {
+// ── Cluster style ──────────────────────────────────────────
+let selectedFeature = null;
+let hoveredFeature = null;
+
+function clusterStyle(clusterFeature) {
+  const features = clusterFeature.get('features');
+  if (!features || features.length === 0) return null;
+  const size = features.length;
+
+  if (size === 1) {
+    const f = features[0];
+    const type = f.get('type');
+    const color = getColor(type);
+    let radius = 8;
+    let strokeWidth = 2;
+    let strokeColor = '#fff';
+    if (f === selectedFeature) {
+      radius = 12;
+      strokeWidth = 4;
+      strokeColor = '#d97706';
+    } else if (f === hoveredFeature) {
+      radius = 10;
+      strokeWidth = 3;
+    }
+    return new Style({
+      image: new CircleStyle({
+        radius,
+        fill: new Fill({ color }),
+        stroke: new Stroke({ color: strokeColor, width: strokeWidth }),
+      }),
+    });
+  }
+
+  // Cluster — blue circle with count
   return new Style({
     image: new CircleStyle({
-      radius,
-      fill: new Fill({ color: getColor(type) }),
-      stroke: new Stroke({ color: strokeColor, width: strokeWidth }),
+      radius: 14 + Math.min(size, 10),
+      fill: new Fill({ color: 'rgba(59,130,246,0.85)' }),
+      stroke: new Stroke({ color: '#fff', width: 2.5 }),
+    }),
+    text: new Text({
+      text: String(size),
+      fill: new Fill({ color: '#fff' }),
+      font: 'bold 13px sans-serif',
     }),
   });
 }
 
-let selectedFeature = null;
-let hoveredFeature = null;
-
-function styleFunction(feature) {
-  const type = feature.get('type');
-  if (feature === selectedFeature) {
-    return makeStyle(type, 12, 4, '#d97706');
-  }
-  if (feature === hoveredFeature) {
-    return makeStyle(type, 10, 3);
-  }
-  return makeStyle(type, 8, 2);
-}
-
 // ── GeoJSON source ─────────────────────────────────────────
-const vectorSource = new VectorSource({
-  features: new GeoJSON().readFeatures(JSON.parse(kopdarData), {
-    featureProjection: 'EPSG:3857',
-  }),
+const allFeatures = new GeoJSON().readFeatures(JSON.parse(kopdarData), {
+  featureProjection: 'EPSG:3857',
 });
 
-const vectorLayer = new VectorLayer({
+const vectorSource = new VectorSource({ features: allFeatures.slice() });
+
+const clusterSource = new Cluster({
+  distance: 40,
   source: vectorSource,
-  style: styleFunction,
+});
+
+const clusterLayer = new VectorLayer({
+  source: clusterSource,
+  style: clusterStyle,
   zIndex: 10,
 });
 
@@ -93,7 +123,7 @@ const map = new Map({
     BASEMAPS.positron,
     BASEMAPS.osm,
     BASEMAPS.topo,
-    vectorLayer,
+    clusterLayer,
   ],
   view: new View({
     center: fromLonLat([110.38, -7.80]),
@@ -114,7 +144,7 @@ const popup = new Overlay({
   element: popupEl,
   positioning: 'bottom-center',
   stopEvent: true,
-  offset: [0, -16],
+  offset: [0, -10],
 });
 map.addOverlay(popup);
 
@@ -123,7 +153,7 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-function showPopup(feature, coordinate) {
+function showPopup(feature) {
   const p = feature.getProperties();
   const color = getColor(p.type);
   const links = [];
@@ -143,7 +173,8 @@ function showPopup(feature, coordinate) {
     ${links.length ? `<div class="popup-links">${links.join('')}</div>` : ''}
   `;
 
-  popup.setPosition(coordinate);
+  const coord = feature.getGeometry().getCoordinates();
+  popup.setPosition(coord);
   popupEl.style.display = 'block';
 }
 
@@ -152,7 +183,7 @@ function hidePopup() {
   popup.setPosition(undefined);
   if (selectedFeature) {
     selectedFeature = null;
-    vectorLayer.changed();
+    clusterLayer.changed();
   }
 }
 
@@ -160,11 +191,18 @@ popupCloser.addEventListener('click', hidePopup);
 
 // ── Click handler ──────────────────────────────────────────
 map.on('click', (evt) => {
-  const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f, { layerFilter: (l) => l === vectorLayer });
-  if (feature) {
+  const clusterFeature = map.forEachFeatureAtPixel(evt.pixel, (f) => f, { layerFilter: (l) => l === clusterLayer });
+  if (clusterFeature) {
+    const features = clusterFeature.get('features');
+    if (features.length > 1) {
+      const ext = boundingExtent(features.map((f) => f.getGeometry().getCoordinates()));
+      map.getView().fit(ext, { padding: [80, 80, 80, 80], duration: 400, maxZoom: 16 });
+      return;
+    }
+    const feature = features[0];
     selectedFeature = feature;
-    vectorLayer.changed();
-    showPopup(feature, evt.coordinate);
+    clusterLayer.changed();
+    showPopup(feature);
   } else {
     hidePopup();
   }
@@ -176,19 +214,32 @@ const tooltipEl = document.getElementById('tooltip');
 map.on('pointermove', (evt) => {
   if (evt.dragging) return;
 
-  const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f, { layerFilter: (l) => l === vectorLayer });
+  const clusterFeature = map.forEachFeatureAtPixel(evt.pixel, (f) => f, { layerFilter: (l) => l === clusterLayer });
 
-  const prevHovered = hoveredFeature;
-  hoveredFeature = feature || null;
-
-  if (hoveredFeature !== prevHovered) {
-    vectorLayer.changed();
+  let feature = null;
+  if (clusterFeature) {
+    const features = clusterFeature.get('features');
+    if (features && features.length === 1) {
+      feature = features[0];
+    }
   }
 
-  if (feature) {
+  const prevHovered = hoveredFeature;
+  hoveredFeature = feature;
+
+  if (hoveredFeature !== prevHovered) {
+    clusterLayer.changed();
+  }
+
+  if (clusterFeature) {
     map.getTargetElement().style.cursor = 'pointer';
-    const p = feature.getProperties();
-    tooltipEl.textContent = `${p.name} · ${p.date}`;
+    if (feature) {
+      const p = feature.getProperties();
+      tooltipEl.textContent = `${p.name} · ${p.date}`;
+    } else {
+      const cnt = clusterFeature.get('features').length;
+      tooltipEl.textContent = `${cnt} kopdar`;
+    }
     tooltipEl.style.display = 'block';
     tooltipEl.style.left = evt.pixel[0] + 'px';
     tooltipEl.style.top = evt.pixel[1] + 'px';
@@ -199,8 +250,7 @@ map.on('pointermove', (evt) => {
 });
 
 // ── Filters ────────────────────────────────────────────────
-const features = vectorSource.getFeatures();
-const dates = features.map((f) => new Date(f.get('date') + 'T00:00:00').getTime());
+const dates = allFeatures.map((f) => new Date(f.get('date') + 'T00:00:00').getTime());
 const minDate = Math.min(...dates);
 const maxDate = Math.max(...dates);
 
@@ -221,36 +271,28 @@ function formatMonthYear(ts) {
   return d.toLocaleDateString('id-ID', { month: 'short', year: 'numeric' });
 }
 
-function updateStats() {
-  const visible = features.filter((f) => !f.get('_hidden')).length;
-  document.getElementById('stats-bar').textContent = `${visible} kopdar ditampilkan`;
-}
-
 function applyFilters(sliderValues) {
   const values = sliderValues !== undefined ? sliderValues : sliderEl.noUiSlider.get();
   const [from, to] = values.map(Number);
   rangeLabel.textContent = `${formatMonthYear(from)} — ${formatMonthYear(to)}`;
 
-  features.forEach((feature) => {
+  const filtered = allFeatures.filter((feature) => {
     const ts = new Date(feature.get('date') + 'T00:00:00').getTime();
     const type = feature.get('type');
-    feature.set('_hidden', ts < from || ts > to || !activeTypes.has(type));
+    return ts >= from && ts <= to && activeTypes.has(type);
   });
-  vectorSource.changed();
-  updateStats();
 
-  if (selectedFeature && selectedFeature.get('_hidden')) {
+  vectorSource.clear();
+  vectorSource.addFeatures(filtered);
+
+  document.getElementById('stats-bar').textContent = `${filtered.length} kopdar ditampilkan`;
+
+  if (selectedFeature && !filtered.includes(selectedFeature)) {
     hidePopup();
   }
 }
 
 sliderEl.noUiSlider.on('update', (values) => applyFilters(values));
-
-// Override style to hide filtered features
-vectorLayer.setStyle((feature) => {
-  if (feature.get('_hidden')) return null;
-  return styleFunction(feature);
-});
 
 document.getElementById('reset-filter').addEventListener('click', () => {
   sliderEl.noUiSlider.set([minDate, maxDate]);
