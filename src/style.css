@@ -442,11 +442,12 @@ html, body {
     overflow-y: auto;
   }
 
-  /* Basemap switcher: top-right, below zoom controls */
+  /* Basemap switcher: top-center on mobile, clear of zoom buttons */
   #basemap-switcher {
-    top: 4rem;
-    right: 1rem;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
     bottom: auto;
-    left: auto;
   }
 }
