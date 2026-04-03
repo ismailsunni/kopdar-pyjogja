@@ -176,13 +176,12 @@ function showPopup(feature) {
   // Use the actual point coordinate (from the inner feature geometry)
   const coord = feature.getGeometry().getCoordinates();
   popup.setPosition(coord);
-  // Pan map slightly so popup is visible
   map.getView().animate({ center: coord, duration: 200 });
-  popupEl.style.display = 'block';
+  popupEl.classList.add('visible');
 }
 
 function hidePopup() {
-  popupEl.style.display = 'none';
+  popupEl.classList.remove('visible');
   popup.setPosition(undefined);
   if (selectedFeature) {
     selectedFeature = null;

@@ -249,8 +249,14 @@ html, body {
   min-width: 240px;
   max-width: 300px;
   pointer-events: auto;
-  display: none;
   font-family: var(--font);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.ol-popup.visible {
+  visibility: visible;
+  opacity: 1;
 }
 
 .ol-popup::after {
