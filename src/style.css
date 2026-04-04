@@ -106,6 +106,9 @@ html, body {
   top: 5.5rem;
   right: 1rem;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 #reset-extent-ctrl button {
   width: 32px;
@@ -581,14 +584,7 @@ html, body {
 .ol-attribution button { display: none; }
 .ol-rotate { display: none; }
 
-/* ── About button ─────────────────────────────────────────── */
-#about-btn {
-  background: #f3f4f6; border: none; border-radius: 50%;
-  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 0.75rem; color: #6b7280; transition: background 0.15s;
-  flex-shrink: 0;
-}
-#about-btn:hover { background: #e5e7eb; }
+
 
 /* ── About modal ──────────────────────────────────────────── */
 #about-overlay {
