@@ -23,6 +23,7 @@
           <div class="panel-subtitle">Python Yogyakarta</div>
         </div>
       </div>
+      <button id="about-btn" title="Tentang">ℹ</button>
       <button id="minimize-btn" title="Minimize">–</button>
     </div>
     <div id="panel-body">
@@ -76,6 +77,39 @@
 
   <!-- Hover tooltip -->
   <div id="tooltip" class="map-tooltip"></div>
+
+  <!-- About modal -->
+  <div id="about-overlay">
+    <div id="about-modal">
+      <button id="about-close">×</button>
+      <div class="about-logo">🐍</div>
+      <h2>Kopdar PyJogja</h2>
+      <p>
+        Peta interaktif pertemuan rutin komunitas <strong>Python Yogyakarta</strong> sejak 2016.
+        Data mencakup lokasi, tanggal, dan format setiap kopdar.
+      </p>
+      <div class="about-section-title">Ikuti PyJogja</div>
+      <div class="about-links">
+        <a href="https://www.meetup.com/Python-ID/" target="_blank" rel="noopener">
+          <span class="about-link-icon">📅</span> Meetup
+        </a>
+        <a href="https://t.me/pyjogja" target="_blank" rel="noopener">
+          <span class="about-link-icon">✈️</span> Telegram
+        </a>
+        <a href="https://www.instagram.com/pyjogja/" target="_blank" rel="noopener">
+          <span class="about-link-icon">📸</span> Instagram
+        </a>
+        <a href="https://github.com/pyjogja" target="_blank" rel="noopener">
+          <span class="about-link-icon">🐙</span> GitHub
+        </a>
+      </div>
+      <div class="about-footer">
+        Data dari Google Sheet komunitas PyJogja.<br>
+        Dibuat dengan OpenLayers &amp; Vite.
+        <a href="https://github.com/ismailsunni/kopdar-pyjogja" target="_blank" rel="noopener">Source code →</a>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="src/main.js"></script>
 </body>

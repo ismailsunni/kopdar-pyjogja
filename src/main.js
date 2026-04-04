@@ -476,3 +476,9 @@ function updateList() {
 }
 
 map.on('moveend', updateList);
+
+// ── About modal ────────────────────────────────────────────
+const aboutOverlay = document.getElementById('about-overlay');
+document.getElementById('about-btn').addEventListener('click', () => aboutOverlay.classList.add('visible'));
+document.getElementById('about-close').addEventListener('click', () => aboutOverlay.classList.remove('visible'));
+aboutOverlay.addEventListener('click', (e) => { if (e.target === aboutOverlay) aboutOverlay.classList.remove('visible'); });
