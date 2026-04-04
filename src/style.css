@@ -103,7 +103,7 @@ html, body {
 
 #reset-extent-ctrl {
   position: fixed;
-  top: 5.5rem;
+  top: 7rem;
   right: 1rem;
   z-index: 100;
   display: flex;
@@ -128,7 +128,7 @@ html, body {
 #reset-extent-ctrl button:hover { background: #f3f4f6; }
 
 @media (max-width: 639px) {
-  #reset-extent-ctrl { top: 5.5rem; right: 1rem; }
+  #reset-extent-ctrl { top: 7rem; right: 1rem; }
 }
 
 #minimize-btn {
