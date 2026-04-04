@@ -130,6 +130,7 @@ const map = new Map({
   view: new View({
     center: fromLonLat([110.38, -7.80]),
     zoom: 12,
+    enableRotation: false,
   }),
 });
 
@@ -164,10 +165,9 @@ function showPopup(feature) {
   popupContent.innerHTML = `
     <div class="popup-header">
       <span class="popup-dot" style="background:${color}"></span>
-      <span class="popup-name">${p.name}</span>
+      <span class="popup-name">Kopdar PyJogja @${p.host}</span>
     </div>
     <div class="popup-row">📅 ${formatDate(p.date)}</div>
-    <div class="popup-row">🏢 ${p.host}</div>
     <div class="popup-row">🏷️ ${TYPE_LABELS[p.type] || p.type}</div>
     ${p.description ? `<div class="popup-desc">📝 ${p.description}</div>` : ''}
     ${links.length ? `<div class="popup-links">${links.join('')}</div>` : ''}
@@ -212,7 +212,7 @@ function showListPopup(features, coord) {
     return `<div class="list-popup-item" data-no="${p.no}">
       <span class="popup-dot" style="background:${color}"></span>
       <span class="list-item-no">#${p.no}</span>
-      <span class="list-item-name">${p.name}</span>
+      <span class="list-item-name">Kopdar PyJogja @${p.host}</span>
       <span class="list-item-date">${formatDate(p.date)}</span>
       <span class="list-item-type">${TYPE_LABELS[p.type] || p.type}</span>
     </div>`;
@@ -308,7 +308,7 @@ map.on('pointermove', (evt) => {
     map.getTargetElement().style.cursor = 'pointer';
     if (feature) {
       const p = feature.getProperties();
-      tooltipEl.textContent = `${p.name} · ${p.date}`;
+      tooltipEl.textContent = `Kopdar PyJogja @${p.host} · ${p.date}`;
     } else {
       const cnt = clusterFeature.get('features').length;
       tooltipEl.textContent = `${cnt} kopdar`;
@@ -452,7 +452,7 @@ function updateList() {
     return `<div class="kopdar-item" data-no="${p.no}">
       <div class="kopdar-item-no">#${p.no}</div>
       <div class="kopdar-item-info">
-        <div class="kopdar-item-name">${p.name}</div>
+        <div class="kopdar-item-name">Kopdar PyJogja @${p.host}</div>
         <div class="kopdar-item-meta">${formatDateShort(p.date)} · ${typeLabel}</div>
       </div>
       <div class="kopdar-item-dot" style="background:${color}"></div>
