@@ -130,8 +130,6 @@ const map = new Map({
   view: new View({
     center: fromLonLat([110.38, -7.80]),
     zoom: 12,
-    extent: JOGJA_EXTENT,
-    constrainOnlyCenter: false,
   }),
 });
 
@@ -178,11 +176,6 @@ function showPopup(feature) {
   // Use the actual point coordinate (from the inner feature geometry)
   const coord = feature.getGeometry().getCoordinates();
   popup.setPosition(coord);
-  map.getView().animate({
-    center: coord,
-    zoom: Math.max(map.getView().getZoom(), 15),
-    duration: 400,
-  });
   popupEl.classList.add('visible');
 }
 
