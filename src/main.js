@@ -331,6 +331,10 @@ const maxDate = Math.max(...dates);
 
 const activeTypes = new Set(Object.keys(TYPE_COLORS));
 
+// Declare early — used by formatDateShort inside updateList, which fires
+// synchronously during noUiSlider.create() below (TDZ fix)
+const MONTHS_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
 const sliderEl = document.getElementById('time-slider');
 const rangeLabel = document.getElementById('time-range-label');
 
@@ -414,8 +418,6 @@ document.getElementById('extent-btn').addEventListener('click', () => {
 });
 
 // ── Kopdar list ────────────────────────────────────────────
-const MONTHS_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-
 function formatDateShort(dateStr) {
   const d = new Date(dateStr + 'T00:00:00');
   return `${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
