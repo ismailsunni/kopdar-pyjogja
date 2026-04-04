@@ -178,6 +178,11 @@ function showPopup(feature) {
   // Use the actual point coordinate (from the inner feature geometry)
   const coord = feature.getGeometry().getCoordinates();
   popup.setPosition(coord);
+  map.getView().animate({
+    center: coord,
+    zoom: Math.max(map.getView().getZoom(), 15),
+    duration: 400,
+  });
   popupEl.classList.add('visible');
 }
 
@@ -466,6 +471,7 @@ function updateList() {
       const no = Number(item.dataset.no);
       const f = allFeatures.find((feat) => feat.get('no') === no);
       if (f) {
+        map.getView().animate({ center: f.getGeometry().getCoordinates(), zoom: Math.max(map.getView().getZoom(), 15), duration: 400 });
         selectedFeature = f;
         clusterLayer.changed();
         showPopup(f);

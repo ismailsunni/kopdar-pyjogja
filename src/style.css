@@ -101,14 +101,32 @@ html, body {
   line-height: 1.3;
 }
 
-#extent-btn {
-  background: #f3f4f6; border: none; border-radius: 50%;
-  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 0.75rem; color: #6b7280; transition: background 0.15s;
-  flex-shrink: 0;
+#reset-extent-ctrl {
+  position: fixed;
+  top: 5.5rem;
+  right: 1rem;
+  z-index: 100;
 }
+#reset-extent-ctrl button {
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: background 0.15s;
+  color: #374151;
+}
+#reset-extent-ctrl button:hover { background: #f3f4f6; }
 
-#extent-btn:hover { background: #e5e7eb; }
+@media (max-width: 639px) {
+  #reset-extent-ctrl { top: 5.5rem; right: 1rem; }
+}
 
 #minimize-btn {
   width: 26px;
