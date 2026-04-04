@@ -101,7 +101,7 @@ const clusterSource = new Cluster({
   source: vectorSource,
 });
 
-const clusterLayer = new VectorLayer({
+let clusterLayer = new VectorLayer({
   source: clusterSource,
   style: clusterStyle,
   zIndex: 10,
