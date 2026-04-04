@@ -151,7 +151,7 @@ map.addOverlay(popup);
 
 function formatDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00');
-  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 function showPopup(feature) {
@@ -159,7 +159,7 @@ function showPopup(feature) {
   const color = getColor(p.type);
   const links = [];
   if (p.announcement_url) links.push(`<a class="popup-link" href="${p.announcement_url}" target="_blank" rel="noopener">📢 Pengumuman</a>`);
-  if (p.docs_url) links.push(`<a class="popup-link" href="${p.docs_url}" target="_blank" rel="noopener">📄 Docs</a>`);
+  if (p.docs_url) links.push(`<a class="popup-link" href="${p.docs_url}" target="_blank" rel="noopener">📄 Dokumentasi</a>`);
   if (p.photo_url) links.push(`<a class="popup-link" href="${p.photo_url}" target="_blank" rel="noopener">📷 Foto</a>`);
 
   popupContent.innerHTML = `
