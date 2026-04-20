@@ -117,6 +117,7 @@ const TYPE_COLORS = {
   conference: '#8b5cf6',
   workshop: '#10b981',
   hackathon: '#ef4444',
+  social: '#ec4899',
 };
 
 const TYPE_LABELS = {
