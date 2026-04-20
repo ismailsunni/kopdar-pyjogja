@@ -256,7 +256,7 @@ function showPopup(feature) {
   popupContent.innerHTML = `
     <div class="popup-header">
       <span class="popup-dot" style="background:${color}"></span>
-      <span class="popup-name">Kopdar PyJogja @${p.host}</span>
+      <span class="popup-name">${p.format} @${p.host}</span>
     </div>
     <div class="popup-row">📅 ${formatDate(p.date)}</div>
     <div class="popup-row">🏷️ ${TYPE_LABELS[p.type] || p.type}</div>
@@ -303,7 +303,7 @@ function showListPopup(features, coord) {
     return `<div class="list-popup-item" data-no="${p.no}">
       <span class="popup-dot" style="background:${color}"></span>
       <span class="list-item-no">#${p.no}</span>
-      <span class="list-item-name">Kopdar PyJogja @${p.host}</span>
+      <span class="list-item-name">${p.format} @${p.host}</span>
       <span class="list-item-date">${formatDate(p.date)}</span>
       <span class="list-item-type">${TYPE_LABELS[p.type] || p.type}</span>
     </div>`;
@@ -399,7 +399,7 @@ map.on('pointermove', (evt) => {
     map.getTargetElement().style.cursor = 'pointer';
     if (feature) {
       const p = feature.getProperties();
-      tooltipEl.textContent = `Kopdar PyJogja @${p.host} · ${p.date}`;
+      tooltipEl.textContent = `${p.format} @${p.host} · ${p.date}`;
     } else {
       const cnt = clusterFeature.get('features').length;
       tooltipEl.textContent = `${cnt} kopdar`;
@@ -527,7 +527,7 @@ function updateList() {
     return `<div class="kopdar-item" data-no="${p.no}">
       <div class="kopdar-item-no">#${p.no}</div>
       <div class="kopdar-item-info">
-        <div class="kopdar-item-name">Kopdar PyJogja @${p.host}</div>
+        <div class="kopdar-item-name">${p.format} @${p.host}</div>
         <div class="kopdar-item-meta">${formatDateShort(p.date)} · ${typeLabel}</div>
       </div>
       <div class="kopdar-item-dot" style="background:${color}"></div>
@@ -580,6 +580,19 @@ fetchSheetFeatures().then((features) => {
 
   document.getElementById('reset-filter').addEventListener('click', () => {
     sliderEl.noUiSlider.set([minDate, maxDate]);
+  });
+
+  const typeCounts = {};
+  allFeatures.forEach((f) => {
+    const t = f.get('type');
+    typeCounts[t] = (typeCounts[t] || 0) + 1;
+  });
+  document.querySelectorAll('.type-pill').forEach((pill) => {
+    const type = pill.dataset.type;
+    const count = typeCounts[type] || 0;
+    if (count === 0) { pill.remove(); return; }
+    const label = pill.textContent.trim();
+    pill.textContent = `${label} (${count})`;
   });
 
   applyFilters([minDate, maxDate]);

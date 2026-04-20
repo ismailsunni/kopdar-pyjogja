@@ -557,13 +557,13 @@ html, body {
 #basemap-switcher button.active { background: #1a1a1a; color: #fff; }
 #basemap-switcher button:not(.active):hover { background: #f3f4f6; color: #374151; }
 
-/* Desktop: bottom-left */
+/* Desktop: bottom-right */
 @media (min-width: 640px) {
   #basemap-switcher {
     bottom: 1.5rem;
-    left: 1rem;
+    right: 1rem;
     top: auto;
-    right: auto;
+    left: auto;
   }
 }
 
