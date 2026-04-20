@@ -7,8 +7,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "nouislider": "^15.8.1",
     "ol": "^10.0.0",
-    "nouislider": "^15.8.1"
+    "open-location-code": "^1.0.3"
   },
   "devDependencies": {
     "vite": "^6.0.0"

@@ -16,7 +16,99 @@ import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import { boundingExtent, containsCoordinate } from 'ol/extent';
 import noUiSlider from 'nouislider';
 
-import kopdarData from './data/kopdar.geojson?raw';
+import { OpenLocationCode } from 'open-location-code';
+
+const olc = new OpenLocationCode();
+const JOGJA_LAT = -7.80;
+const JOGJA_LNG = 110.38;
+
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/18EoSHX94LZZBIHPCWurSHyjvQJyUmzYb2Dc7ezitSCE/gviz/tq?tqx=out:csv';
+
+const FORMAT_TO_TYPE = {
+  'Regular Talks': 'normal_talk',
+  'Lightning Talks': 'lightning_talk',
+  'Syawalan': 'social',
+  'PyCon APAC': 'conference',
+  'Cross Community': 'normal_talk',
+  'Online': 'online',
+  'Workshop': 'workshop',
+  'Hackathon': 'hackathon',
+};
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = parseCSVLine(lines[0]);
+  return lines.slice(1)
+    .map((line) => Object.fromEntries(headers.map((h, i) => [h, parseCSVLine(line)[i] ?? ''])))
+    .filter((row) => row[headers[0]]);
+}
+
+function parseCSVLine(line) {
+  const values = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === '"') { inQuotes = !inQuotes; }
+    else if (line[i] === ',' && !inQuotes) { values.push(current.trim()); current = ''; }
+    else { current += line[i]; }
+  }
+  values.push(current.trim());
+  return values;
+}
+
+function decodePlusCode(code) {
+  if (!code) return null;
+  try {
+    const fullCode = olc.isFull(code) ? code : olc.recoverNearest(code, JOGJA_LAT, JOGJA_LNG);
+    const area = olc.decode(fullCode);
+    return [area.longitudeCenter, area.latitudeCenter];
+  } catch { return null; }
+}
+
+function parseSheetDate(raw) {
+  // Sheet returns e.g. "Sat, 24 Sep 2016" — parse to YYYY-MM-DD
+  const d = new Date(raw.trim());
+  if (isNaN(d)) return raw.trim();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+async function fetchSheetFeatures() {
+  const res = await fetch(SHEET_CSV_URL);
+  const text = await res.text();
+  const rows = parseCSV(text);
+
+  const geojsonFeatures = rows.map((row) => {
+    const no = parseInt(row['No'], 10);
+    if (!no || isNaN(no)) return null;
+    const coords = decodePlusCode(row['Plus Code']);
+    if (!coords) return null;
+    const format = (row['Format'] || '').trim();
+    return {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: coords },
+      properties: {
+        no,
+        name: `Kopdar PyJogja #${no}`,
+        date: parseSheetDate(row['Date'] || ''),
+        host: (row['Location'] || '').trim(),
+        type: FORMAT_TO_TYPE[format] || 'normal_talk',
+        format,
+        announcement_url: (row['Announcement'] || '').trim(),
+        docs_url: (row['Documentation'] || '').trim(),
+        photo_url: '',
+        description: (row['Notes'] || '').trim(),
+      },
+    };
+  }).filter(Boolean);
+
+  return new GeoJSON().readFeatures(
+    { type: 'FeatureCollection', features: geojsonFeatures },
+    { featureProjection: 'EPSG:3857' },
+  );
+}
 
 // ── Color palette ──────────────────────────────────────────
 const TYPE_COLORS = {
@@ -90,11 +182,9 @@ function clusterStyle(clusterFeature) {
 }
 
 // ── GeoJSON source ─────────────────────────────────────────
-const allFeatures = new GeoJSON().readFeatures(JSON.parse(kopdarData), {
-  featureProjection: 'EPSG:3857',
-});
+let allFeatures = [];
 
-const vectorSource = new VectorSource({ features: allFeatures.slice() });
+const vectorSource = new VectorSource();
 
 const clusterSource = new Cluster({
   distance: 40,
@@ -323,25 +413,12 @@ map.on('pointermove', (evt) => {
 });
 
 // ── Filters ────────────────────────────────────────────────
-const dates = allFeatures.map((f) => new Date(f.get('date') + 'T00:00:00').getTime());
-const minDate = Math.min(...dates);
-const maxDate = Math.max(...dates);
-
 const activeTypes = new Set(Object.keys(TYPE_COLORS));
 
-// Declare early — used by formatDateShort inside updateList, which fires
-// synchronously during noUiSlider.create() below (TDZ fix)
 const MONTHS_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 
 const sliderEl = document.getElementById('time-slider');
 const rangeLabel = document.getElementById('time-range-label');
-
-noUiSlider.create(sliderEl, {
-  start: [minDate, maxDate],
-  connect: true,
-  range: { min: minDate, max: maxDate },
-  step: 24 * 60 * 60 * 1000,
-});
 
 function formatMonthYear(ts) {
   const d = new Date(ts);
@@ -349,6 +426,7 @@ function formatMonthYear(ts) {
 }
 
 function applyFilters(sliderValues) {
+  if (!sliderEl.noUiSlider) return;
   const values = sliderValues !== undefined ? sliderValues : sliderEl.noUiSlider.get();
   const [from, to] = values.map(Number);
   rangeLabel.textContent = `${formatMonthYear(from)} — ${formatMonthYear(to)}`;
@@ -371,11 +449,6 @@ function applyFilters(sliderValues) {
   updateList();
 }
 
-sliderEl.noUiSlider.on('update', (values) => applyFilters(values));
-
-document.getElementById('reset-filter').addEventListener('click', () => {
-  sliderEl.noUiSlider.set([minDate, maxDate]);
-});
 
 // ── Type filter pills ──────────────────────────────────────
 document.querySelectorAll('.type-pill').forEach((pill) => {
@@ -422,6 +495,7 @@ function formatDateShort(dateStr) {
 }
 
 function updateList() {
+  if (!sliderEl.noUiSlider) return;
   const mapExtent = map.getView().calculateExtent(map.getSize());
   const values = sliderEl.noUiSlider.get();
   const [from, to] = values.map(Number);
@@ -482,3 +556,33 @@ const aboutOverlay = document.getElementById('about-overlay');
 document.getElementById('about-btn').addEventListener('click', () => aboutOverlay.classList.add('visible'));
 document.getElementById('about-close').addEventListener('click', () => aboutOverlay.classList.remove('visible'));
 aboutOverlay.addEventListener('click', (e) => { if (e.target === aboutOverlay) aboutOverlay.classList.remove('visible'); });
+
+// ── Load data from Google Sheets ───────────────────────────
+const statsBar = document.getElementById('stats-bar');
+statsBar.textContent = 'Memuat data…';
+
+fetchSheetFeatures().then((features) => {
+  allFeatures = features;
+
+  const dates = allFeatures.map((f) => new Date(f.get('date') + 'T00:00:00').getTime());
+  const minDate = Math.min(...dates);
+  const maxDate = Math.max(...dates);
+
+  noUiSlider.create(sliderEl, {
+    start: [minDate, maxDate],
+    connect: true,
+    range: { min: minDate, max: maxDate },
+    step: 24 * 60 * 60 * 1000,
+  });
+
+  sliderEl.noUiSlider.on('update', (values) => applyFilters(values));
+
+  document.getElementById('reset-filter').addEventListener('click', () => {
+    sliderEl.noUiSlider.set([minDate, maxDate]);
+  });
+
+  applyFilters([minDate, maxDate]);
+}).catch((err) => {
+  console.error('Gagal memuat data kopdar:', err);
+  statsBar.textContent = 'Gagal memuat data. Coba muat ulang halaman.';
+});
