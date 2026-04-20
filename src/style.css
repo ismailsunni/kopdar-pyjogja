@@ -19,7 +19,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: var(--font);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 /* Full-screen map */
@@ -33,17 +33,31 @@ html, body {
 /* ── Floating panel ──────────────────────────────────────── */
 #panel {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
-  width: 340px;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: auto;
   background: white;
-  border-radius: var(--panel-radius);
+  border-radius: 16px 16px 0 0;
   box-shadow: var(--panel-shadow);
   z-index: 100;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 2rem);
+  max-height: 50vh;
+}
+
+@media (min-width: 640px) {
+  #panel {
+    top: 1.5rem;
+    bottom: auto;
+    left: 1.5rem;
+    right: auto;
+    width: 380px;
+    border-radius: var(--panel-radius);
+    max-height: calc(100vh - 3rem);
+  }
 }
 
 /* Panel header */
@@ -51,7 +65,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px 10px;
+  padding: 16px 20px 14px;
   border-bottom: 1px solid #f0f0f0;
   background: white;
   flex-shrink: 0;
@@ -90,13 +104,13 @@ html, body {
 
 .panel-title {
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: #111;
   line-height: 1.3;
 }
 
 .panel-subtitle {
-  font-size: 0.6rem;
+  font-size: 0.72rem;
   color: #9ca3af;
   line-height: 1.3;
 }
@@ -155,10 +169,11 @@ html, body {
 /* Panel body */
 #panel-body {
   overflow-y: auto;
-  padding: 12px 14px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  flex: 1;
 }
 
 #panel.minimized #panel-body {
@@ -171,12 +186,12 @@ html, body {
 
 /* Stats bar */
 #stats-bar {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   color: #6b7280;
   text-align: center;
   background: #f9fafb;
   border-radius: 6px;
-  padding: 5px 8px;
+  padding: 7px 10px;
 }
 
 /* Filter sections */
@@ -187,7 +202,7 @@ html, body {
 }
 
 .filter-label {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -203,7 +218,7 @@ html, body {
 }
 
 #time-range-label {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #374151;
   font-weight: 500;
 }
@@ -212,7 +227,7 @@ html, body {
   background: none;
   border: none;
   color: #9ca3af;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   cursor: pointer;
   padding: 2px 4px;
   border-radius: 4px;
@@ -234,9 +249,9 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 99px;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s;
@@ -258,28 +273,32 @@ html, body {
 #list-section { border-top: 1px solid #f0f0f0; padding-top: 0.6rem; }
 
 .section-label {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #9ca3af;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
-#kopdar-list { display: flex; flex-direction: column; gap: 2px; max-height: 280px; overflow-y: auto; scrollbar-width: thin; }
+#kopdar-list { display: flex; flex-direction: column; gap: 2px; max-height: 320px; overflow-y: auto; scrollbar-width: thin; }
+
+@media (min-width: 640px) {
+  #kopdar-list { max-height: none; flex: 1; }
+}
 
 .kopdar-item {
-  display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.45rem 0.4rem; border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.55rem 0.5rem; border-radius: 8px; cursor: pointer;
   transition: background 0.1s;
 }
 .kopdar-item:hover { background: #f3f4f6; }
 .kopdar-item.active { background: #eff6ff; }
-.kopdar-item-no { font-size: 0.65rem; font-weight: 700; color: #9ca3af; min-width: 22px; }
+.kopdar-item-no { font-size: 0.72rem; font-weight: 700; color: #9ca3af; min-width: 24px; }
 .kopdar-item-info { flex: 1; min-width: 0; }
-.kopdar-item-name { font-size: 0.78rem; font-weight: 600; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.kopdar-item-meta { font-size: 0.65rem; color: #9ca3af; margin-top: 1px; }
-.kopdar-item-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.kopdar-item-name { font-size: 0.88rem; font-weight: 600; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kopdar-item-meta { font-size: 0.72rem; color: #9ca3af; margin-top: 2px; }
+.kopdar-item-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 
 /* ── OL overlay container transparency ──────────────────── */
 
@@ -550,21 +569,6 @@ html, body {
 
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 639px) {
-  #panel {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: auto;
-    border-radius: 16px 16px 0 0;
-    max-height: 50vh;
-  }
-
-  #panel-body {
-    overflow-y: auto;
-  }
-
-  /* Basemap switcher: top-center on mobile, clear of zoom buttons */
   #basemap-switcher {
     top: 1rem;
     left: 50%;
